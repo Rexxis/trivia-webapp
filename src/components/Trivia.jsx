@@ -4,7 +4,7 @@ import Choices from './Choices'
 
 export default function Trivia(props) {
     const allOptions = [props.correct, ...props.incorrect]
-
+    
     const choices = allOptions.map(item => {
         return <Choices key={nanoid()} value={item} />
     })

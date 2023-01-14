@@ -8,31 +8,36 @@ export default function App() {
   const [isPlaying, setIsPlaying] = React.useState(false)
   const [triviaData, setTriviaData] = React.useState([])
 
+
   React.useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+    fetch("https://opentdb.com/api.php?amount=5&type=multiple&encode=base64")
       .then(res => res.json())
       .then(data => setTriviaData(data.results))
   }, [])
-  
-  let displayTrivia = triviaData.map(item => {
+
+
+  function startQuiz() {
+    setIsPlaying(prevState => !prevState)
+  }
+
+  let triviaElements = triviaData.map(item => {
     return (<Trivia 
       key={nanoid()}
-      question={item.question} 
-      incorrect={item.incorrect_answers} 
-      correct={item.correct_answer} />)
+      question={atob(item.question)} 
+      incorrect={item.incorrect_answers.map(incorrect => atob(incorrect))}
+      correct={atob(item.correct_answer)} />)
   })
 
   return (
-    {isPlaying 
-      ? 
-      
-      <div className="main-container">
-        {displayTrivia}
-        <button className="bottom-btn">Check answers</button>
-      </div>
-
-      :
-      <Splash />
+    <main>
+      {isPlaying ? 
+        <div className="main-container">
+          {triviaElements}
+         <button className="bottom-btn btn">Check answers</button>
+        </div>
+        :
+        <Splash startquiz={startQuiz}/>
     }
+    </main>
   )
 }
