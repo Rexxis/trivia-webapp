@@ -16,7 +16,6 @@ export default function App() {
   const [triviaData, setTriviaData] = React.useState([])
 
   // Function to handle difficulty button
-
   function handleDifficulty(level) {
     setDifficulties(diff => diff.map(item => {
       return {...item, selected: level}
@@ -69,15 +68,10 @@ export default function App() {
   // Handle check answer button
   function handleCheck() {
     // Check if each trivia has been answered, if not -> button does not work
-    let selected = true
-    triviaData.forEach(data => {
-      if (data.selected === "none") {
-        selected = false
-        return
-      }
-    })
+    const allSelected = triviaData.every(data => data.selected !== "none")
 
-    if (!selected) {
+    // If not all trivia has been answered
+    if (!allSelected) {
       return
     }
 
