@@ -25,7 +25,8 @@ export default function App() {
 
   // Get data from API and parse into own object
   React.useEffect(() => {
-    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&type=multiple&encode=base64${category}`)
+    console.log(`link:${difficulty}, ${category}`)
+    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}${category}&type=multiple&encode=base64`)
       .then(res => res.json())
       .then(data => setTriviaData(data.results.map(item => {
         return ({
@@ -38,7 +39,7 @@ export default function App() {
         })
       })))
 
-  }, [newGame])
+  }, [isPlaying, newGame])
 
 
   // Function to handle difficulty buttons
@@ -55,7 +56,7 @@ export default function App() {
     setCategories(item => item.map(obj => {
       return {...obj, selected: cat}
     }))
-
+    
     setCategory(val)
   }
 
