@@ -9,14 +9,29 @@ export default function App() {
   const [isChecked, setIsChecked] = React.useState(false)
   const [newGame, setNewGame] = React.useState(false)
   const [correctAnswer, setCorrectAnswer] = React.useState(false)
+
+  const [difficulty, setDifficulty] = React.useState("easy")
+  const [difficulties, setDifficulties] = React.useState([{level: "Easy", selected: "none"}, {level: "Medium", selected: "none"}, {level: "Hard", selected: "none"}])
+  
   const [triviaData, setTriviaData] = React.useState([])
+
+  // Function to handle difficulty button
+
+  function handleDifficulty(level) {
+    setDifficulties(diff => diff.map(item => {
+      return {...item, selected: level}
+    }))
+    const newLevel = level.toLowerCase()
+    setDifficulty(newLevel)
+  }
 
   // Function to shuffle array
   const shuffle = (arr) => arr.sort(() => Math.random() - 0.5)
 
+
   // Get data from API and parse into own object
   React.useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5&difficulty=medium&type=multiple&encode=base64")
+    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&type=multiple&encode=base64`)
       .then(res => res.json())
       .then(data => setTriviaData(data.results.map(item => {
         return ({
@@ -31,10 +46,12 @@ export default function App() {
 
   }, [newGame])
 
+
   // Handle start quiz button from splash screen
   function startQuiz() {
     setIsPlaying(prevState => !prevState)
   }
+
 
   // Handle if answer button clicked
   function handleClickAnswer(id, answer) {
@@ -47,6 +64,7 @@ export default function App() {
       return item.id === id ? {...item, selected: answer} : item
     }))
   }
+
 
   // Handle check answer button
   function handleCheck() {
@@ -81,10 +99,12 @@ export default function App() {
     setCorrectAnswer(correct)
   }
 
+
   function playAgain() {
     setIsChecked(false)
     setNewGame(prevState => !prevState)
   }
+
 
   // Map triviaElements
   let triviaElements = triviaData.map(item => {
@@ -106,7 +126,7 @@ export default function App() {
           </div>
         </div>
         :
-        <Splash startquiz={startQuiz}/>
+        <Splash startquiz={startQuiz} difficulties={difficulties} handleDifficulty={handleDifficulty}/>
     }
     </main>
   )

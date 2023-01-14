@@ -35,6 +35,11 @@ body {
     font-size: 1.15rem;
 }
 
+.difficulty-title {
+    font-family: "Karla", sans-serif;
+    color: #293264
+}
+
 .start-button {
     width: 200px;
     height: 55px;
@@ -45,6 +50,7 @@ body {
     color: #f5f7fb;
     font-weight: 500;
     font-size: 1.35rem;
+    margin-top: 50px;
 }
 
 .trivia-set {

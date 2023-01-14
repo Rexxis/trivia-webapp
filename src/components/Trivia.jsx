@@ -1,6 +1,5 @@
 import React from 'react'
 import {nanoid} from 'nanoid'
-import Choices from './Choices'
 
 export default function Trivia(props) {
   // Rename answers to local variable
