@@ -33,6 +33,17 @@ body {
     margin-bottom: 35px;
     font-family: "Inter", sans-serif;
     font-size: 1.15rem;
+    text-align: center;
+}
+
+.made-by {
+    margin-top: 10px;
+    font-family: "Inter", sans-serif;
+    font-size: 1.15rem;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #293264
 }
 
 .difficulty-title {
@@ -163,4 +174,8 @@ body {
 #not-selected {
     border: 1px solid #D6DBF5;
     color: #D6DBF5;
+}
+
+footer {
+    margin-top: auto;
 }

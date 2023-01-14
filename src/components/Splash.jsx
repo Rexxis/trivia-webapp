@@ -17,11 +17,12 @@ export default function Splash(props) {
   return (
     <div className="main-container">
         <h1 className="intro-title">Quizzical</h1>
-        <p className="intro-paragraph">A trivia quiz to tease your brain !</p>
+        <p className="intro-paragraph">A trivia quiz to tease your brain !<br /></p>
         <h3 className='difficulty-title'>Select your difficulty level</h3>
         <div className='answers'>
           {difficultyElement}
         </div>
+        <p className='made-by'>(Made by David Harendza - January 2023)</p>
         <button className="start-button btn" onClick={props.startquiz}>Start quiz</button>
     </div>
   )
