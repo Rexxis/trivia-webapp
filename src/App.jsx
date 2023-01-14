@@ -13,17 +13,11 @@ export default function App() {
 
   const [difficulty, setDifficulty] = React.useState("easy")
   const [difficulties, setDifficulties] = React.useState([{level: "Easy", selected: "none"}, {level: "Medium", selected: "none"}, {level: "Hard", selected: "none"}])
+
+  const [categories, setCategories] = React.useState([{name: "All", value: "", selected: "none"}, {name: "General Knowledge", value: "&category=9", selected: "none"}, {name: "Film", value: "&category=11", selected: "none"}, {name: "Vehicles", value: "&category=28", selected: "none"}])
+  const [category, setCategory] = React.useState("")
   
   const [triviaData, setTriviaData] = React.useState([])
-
-  // Function to handle difficulty button
-  function handleDifficulty(level) {
-    setDifficulties(diff => diff.map(item => {
-      return {...item, selected: level}
-    }))
-    const newLevel = level.toLowerCase()
-    setDifficulty(newLevel)
-  }
 
   // Function to shuffle array
   const shuffle = (arr) => arr.sort(() => Math.random() - 0.5)
@@ -31,7 +25,7 @@ export default function App() {
 
   // Get data from API and parse into own object
   React.useEffect(() => {
-    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&category=9&type=multiple&encode=base64`)
+    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&type=multiple&encode=base64${category}`)
       .then(res => res.json())
       .then(data => setTriviaData(data.results.map(item => {
         return ({
@@ -47,11 +41,34 @@ export default function App() {
   }, [newGame])
 
 
+  // Function to handle difficulty buttons
+  function handleDifficulty(level) {
+    setDifficulties(diff => diff.map(item => {
+      return {...item, selected: level}
+    }))
+    const newLevel = level.toLowerCase()
+    setDifficulty(newLevel)
+  }
+
+  // Function to handle category buttons
+  function handleCategory(cat, val) {
+    setCategories(item => item.map(obj => {
+      return {...obj, selected: cat}
+    }))
+
+    setCategory(val)
+  }
+
   // Handle start quiz button from splash screen
   function startQuiz() {
     if (difficulties.every(item => item.selected === "none")) {
       return
     }
+
+    if (categories.every(item => item.selected === "none")) {
+      return
+    }
+
     setIsPlaying(prevState => !prevState)
   }
 
@@ -126,7 +143,7 @@ export default function App() {
           </div>
         </div>
         :
-        <Splash startquiz={startQuiz} difficulties={difficulties} handleDifficulty={handleDifficulty}/>
+        <Splash startquiz={startQuiz} difficulties={difficulties} categories={categories} handleDifficulty={handleDifficulty} handleCategory={handleCategory} />
     }
     </main>
   )
