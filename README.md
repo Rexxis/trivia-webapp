@@ -1,5 +1,5 @@
 This is a trivia quiz app
 
-Created for Scrimba - React course solo project
+This project is created for Solo Project requirement in "Scrimba - React Course"
 
 By David Harendza - January 2022
