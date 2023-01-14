@@ -2,6 +2,7 @@ import React from 'react'
 import { nanoid } from 'nanoid'
 import Splash from './components/Splash'
 import Trivia from './components/Trivia'
+import Confetti from "react-confetti"
 import "./styles.css"
 
 export default function App() {
@@ -30,7 +31,7 @@ export default function App() {
 
   // Get data from API and parse into own object
   React.useEffect(() => {
-    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&type=multiple&encode=base64`)
+    fetch(`https://opentdb.com/api.php?amount=5&difficulty=${difficulty}&category=9&type=multiple&encode=base64`)
       .then(res => res.json())
       .then(data => setTriviaData(data.results.map(item => {
         return ({
@@ -48,6 +49,9 @@ export default function App() {
 
   // Handle start quiz button from splash screen
   function startQuiz() {
+    if (difficulties.every(item => item.selected === "none")) {
+      return
+    }
     setIsPlaying(prevState => !prevState)
   }
 
@@ -95,6 +99,7 @@ export default function App() {
 
 
   function playAgain() {
+    setCorrectAnswer(0)
     setIsChecked(false)
     setNewGame(prevState => !prevState)
   }
@@ -114,6 +119,7 @@ export default function App() {
     <main>
       {isPlaying ? 
         <div className="main-container">
+          {correctAnswer >= 3 && <Confetti />}
           {triviaElements}
           <div className='bottom-container'>
             {isChecked && <h2>You scored {correctAnswer}/5 correct answers</h2>}<button className="bottom-btn btn" onClick={isChecked ? playAgain : handleCheck}>{isChecked ? "Play Again" : "Check answers"}</button>
